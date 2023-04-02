@@ -1,11 +1,13 @@
-<h2>
-    welcome <%= user.name %>
-    <br>
-    <a href="/users/password/reset/page">
-        <button >Reset Password</button>
-    </a>
-    <a href="/users/sign-out">
-        <button>Signout</button>
-    </a>
-
-</h2>
+<div class="container">
+    <h2>
+        welcome <%= user.name %>
+        <br>
+        <a href="/users/password/reset/page">
+            <button type="submit" class="btn btn-warning mb-3" >Reset Password</button>
+        </a>
+        <a href="/users/sign-out">
+            <button type="submit" class="btn btn-warning mb-3" >Sign Out</button>
+        </a>
+    
+    </h2>
+</div>

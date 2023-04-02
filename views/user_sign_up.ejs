@@ -1,13 +1,33 @@
+<div class="container">
 <h1>Sign Up</h1>
 
 <form action="/users/create" method="POST">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <input type="password" name="password" placeholder="Password" required>
-    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-    <input type="submit" value="Sign Up">
+    <div class="form-floating">
+        <input type="text" class="form-control" style="width:30%;" name="name" id="floatingInput" placeholder="Enter name" required>
+        <label for="floatingInput">Email</label>
+    </div>
+    <div class="form-floating">
+        <input type="text" class="form-control" style="width:30%;" name="email" id="floatingInput" placeholder="Enter email" required>
+        <label for="floatingInput">Email</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" style="width:30%;" name="password" id="floatingInput" placeholder="password" required>
+        <label for="floatingInput">Password</label>
+    </div>
+    <div class="form-floating">
+        <input type="password" class="form-control" style="width:30%;" name="confirm_password" id="floatingInput" placeholder="Confirm password" required>
+        <label for="floatingInput">Confirm Password</label>
+    </div>
+  
+    <button type="submit" class="btn btn-warning mb-3" >Sign Up</button>
+
+
 
 </form>
+<hr>
+<h3>(or)</h3>
 
+<a href="/users/auth/google"> <button type="submit" class="btn btn-danger mb-3" > Google SignIn/signUp </button>
+</a>
 
-<a href="/users/auth/google"> google signIn/signUp</a>
+</div>
