@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const crypto = require('crypto');
 const mail = require("./mail_controller");
+const bcrypt = require('bcrypt');
 
 module.exports.profile = function (req, res) {
     return res.render('user_profile', {
@@ -43,10 +44,12 @@ module.exports.create = async function (req, res) {
     if (!user) {
         try {
             password = req.body.password
-            let salt = crypto.randomBytes(16).toString('hex');
-            let hash = crypto.pbkdf2Sync(password, salt,
-                1000, 14, `sha512`).toString(`hex`);
+
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(password,salt)
             req.body["password"] = hash
+
+            console.log(req.body,"password",password)
             await User.create(req.body)
             return res.redirect('/users/sign-in');
 
@@ -81,9 +84,8 @@ module.exports.resetPassword = async function (req, res) {
         return res.redirect('back');
     }
     password = req.body.password
-    let salt = crypto.randomBytes(16).toString('hex');
-    let hash = crypto.pbkdf2Sync(password, salt,
-        1000, 14, `sha512`).toString(`hex`);
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password,salt)
     req.body["password"] = hash
     const filter = { email: req.user.email }
     const update = { password: hash }
@@ -104,13 +106,11 @@ module.exports.forgotPassword = function (req, res) {
 
 }
 
-module.exports.sendPassword = function (req, res) {
+module.exports.sendPassword = async function (req, res) {
     // console.log(req)
     var password = (Math.random() + 1).toString(36).substring(7);
-    let salt = crypto.randomBytes(16).toString('hex');
-    let hash = crypto.pbkdf2Sync(password, salt,
-        1000, 14, `sha512`).toString(`hex`);
-    console.log(hash,"dddddddddddd")
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password,salt)
     var email = req.body.email
     filter= { "email": email }
     update= {"password":hash}
