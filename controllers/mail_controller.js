@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 
 
 
-module.exports.sendMail = function mail(email){
+module.exports.sendMail = function mail(email,password){
 
     console.log(email);
     var transporter = nodemailer.createTransport({
@@ -10,16 +10,15 @@ module.exports.sendMail = function mail(email){
         auth: {
             user: 'reports@tendercuts.in',
             pass: 'sxwqsywkxwvjchsq',
-            // clientId: '266606537479-a8pq7pluilh6t7tgohh6vc2hva3rmpjk.apps.googleusercontent.com',
-            // clientSecret:'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'
+
         }
     });
 
     var mailOptions = {
         from: 'kmsmebe@gmail.com',
         to: 'kmstpm@gmail.com',
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
+        subject: 'Reset password from auth app',
+        text: `Your password is ${password}`
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
