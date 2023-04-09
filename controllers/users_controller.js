@@ -3,16 +3,10 @@ const crypto = require('crypto');
 const mail = require("./mail_controller");
 const bcrypt = require('bcrypt');
 
-module.exports.profile = function (req, res) {
-    return res.render('user_profile', {
-        title: 'User Profile'
-    })
-}
-
 
 // render the sign up page
 module.exports.signUp = function (req, res) {
-    console.log(req)
+    // user has already authenticated 
     if (req.isAuthenticated()) {
         return res.render("home", {
             user: req.user
@@ -20,6 +14,7 @@ module.exports.signUp = function (req, res) {
         });
     }
 
+    // redirect to sign up page
     return res.render('user_sign_up', {
         title: "Codeial | Sign Up"
     })
@@ -36,6 +31,7 @@ module.exports.signIn = function (req, res) {
 // get the sign up data
 module.exports.create = async function (req, res) {
     if (req.body.password != req.body.confirm_password) {
+        req.flash("error", "password is not matching")
         return res.redirect('back');
     }
 
@@ -44,17 +40,16 @@ module.exports.create = async function (req, res) {
     if (!user) {
         try {
             password = req.body.password
-
+            // hashing passowrd
             const salt = await bcrypt.genSalt(10);
-            const hash = await bcrypt.hash(password,salt)
+            const hash = await bcrypt.hash(password, salt)
             req.body["password"] = hash
-
-            console.log(req.body,"password",password)
             await User.create(req.body)
             return res.redirect('/users/sign-in');
 
         } catch {
-            console.log('error in creating user while signing up')
+            req.flash("error", "Error while creating the user");
+            return res.redirect('back');
         }
 
 
@@ -85,7 +80,7 @@ module.exports.resetPassword = async function (req, res) {
     }
     password = req.body.password
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password,salt)
+    const hash = await bcrypt.hash(password, salt)
     req.body["password"] = hash
     const filter = { email: req.user.email }
     const update = { password: hash }
@@ -110,13 +105,13 @@ module.exports.sendPassword = async function (req, res) {
     // console.log(req)
     var password = (Math.random() + 1).toString(36).substring(7);
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password,salt)
+    const hash = await bcrypt.hash(password, salt)
     var email = req.body.email
-    filter= { "email": email }
-    update= {"password":hash}
-    User.findOneAndUpdate(filter,update).then((result) => {
-        if (result){
-            mail.sendMail(email,password)
+    filter = { "email": email }
+    update = { "password": hash }
+    User.findOneAndUpdate(filter, update).then((result) => {
+        if (result) {
+            mail.sendMail(email, password)
         }
         res.redirect('/users/sign-in');
     })

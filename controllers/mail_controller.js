@@ -1,10 +1,8 @@
 var nodemailer = require('nodemailer');
 
 
-
+// To send mail
 module.exports.sendMail = function mail(email,password){
-
-    console.log(email);
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -16,7 +14,7 @@ module.exports.sendMail = function mail(email,password){
 
     var mailOptions = {
         from: 'kmsmebe@gmail.com',
-        to: 'kmstpm@gmail.com',
+        to: email,
         subject: 'Reset password from auth app',
         text: `Your password is ${password}`
     };

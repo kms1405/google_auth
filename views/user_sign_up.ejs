@@ -1,5 +1,11 @@
 <div class="container">
 <h1>Sign Up</h1>
+<% if (message.length > 0) { %>
+    <div class="alert alert-danger" role="alert">
+        <%= message.error %>
+      </div>
+
+<%} %>
 
 <form action="/users/create" method="POST">
     <div class="form-floating">
@@ -19,7 +25,7 @@
         <label for="floatingInput">Confirm Password</label>
     </div>
   
-    <!-- <div class="g-recaptcha"  data-sitekey="6Ldi_WwlAAAAAFs62ECTEii-QCA2yOeBY-lKQdIp"></div> -->
+    <div class="g-recaptcha"  data-sitekey="6Ldi_WwlAAAAAFs62ECTEii-QCA2yOeBY-lKQdIp"></div>
     <br />
     <button type="submit" class="btn btn-warning mb-3" >Sign Up</button>
 

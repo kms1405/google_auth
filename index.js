@@ -11,14 +11,13 @@ const passportLocal = require('./config/passport-local-strategy');
 const passportGoogle = require('./config/passport-google-oauth2-strategy');
 const path  = require("path");
 const MongoStore = require('connect-mongo');
+const flash = require("connect-flash");
 
 app.use(express.urlencoded());
-
 app.use(cookieParser());
-
 app.use(expressLayouts);
 
-
+// Setup bootstrap style path
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')))
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')))
 app.use('/js', express.static(path.join(__dirname, 'node_modules/jquery/dist')))
@@ -36,9 +35,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,"views"));
 
 
+// user session setup
 app.use(session({
-    name: 'codeial',
-    // TODO change the secret before deployment in production mode
+    name: 'kmsauthapp',
     secret: 'blahsomething',
     saveUninitialized: false,
     resave: false,
@@ -55,10 +54,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(passport.setAuthenticatedUser);
 
+// flash message setup
+app.use(flash());
+app.use(function(req, res, next){
+    res.locals.message = req.flash();
+    next();
+});
+
 // use express router
 app.use('/', require('./routes'));
 
 
+// server setup
 app.listen(port, function(err){
     if (err){
         console.log(`Error in running the server: ${err}`);

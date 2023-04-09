@@ -1,6 +1,12 @@
 
 <div class="container">
     <h1>Sign In</h1>
+    <% if (message.length > 0) { %>
+        <div class="alert alert-danger" role="alert">
+            <%= message.error %>
+          </div>
+    
+    <%} %>
 
 <form action="/users/create-session" method="POST">
     <div class="form-floating">
@@ -11,8 +17,8 @@
         <input type="password" class="form-control" style="width:30%;" name="password" id="floatingInput" placeholder="password" required>
         <label for="floatingInput">Password</label>
     </div>
-    <!-- <div class="g-recaptcha"  data-sitekey="6Ldi_WwlAAAAAFs62ECTEii-QCA2yOeBY-lKQdIp"></div>
-    <br /> -->
+    <div class="g-recaptcha"  data-sitekey="6Ldi_WwlAAAAAFs62ECTEii-QCA2yOeBY-lKQdIp"></div>
+    <br />
     <button type="submit" class="btn btn-warning mb-3" >Sign In</button>
     <a href="/users/forget-password"> forgot password</a>
 

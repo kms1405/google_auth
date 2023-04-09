@@ -1,7 +1,6 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require('../models/user');
-const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 
 passport.use(new LocalStrategy(
@@ -10,10 +9,13 @@ passport.use(new LocalStrategy(
     }, async function (email, password, done) {
         user = await User.findOne({ email: email });
         
+        // user not found
         if (!user) {
             console.log('Error in finding user --> Passport');
-            return done("user not found");
+            return done(null,false);
         }
+
+        // password check
         const password_check = await bcrypt.compare(password, user.password)
         if (password_check == false) {
             console.log('Invalid Username/Password');
@@ -26,11 +28,13 @@ passport.use(new LocalStrategy(
 ));
 
 
+// serilizing
 passport.serializeUser(function (id, done) {
     done(null, user.id);
 });
 
 
+// deserilizing
 passport.deserializeUser(async function (id, done) {
     try {
         user = await User.findById(id)
@@ -45,6 +49,7 @@ passport.deserializeUser(async function (id, done) {
 });
 
 
+// Authentication check
 passport.checkAuthentication = function (req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -53,6 +58,8 @@ passport.checkAuthentication = function (req, res, next) {
     return res.redirect("/users/sign-in")
 }
 
+
+// setauthendication
 passport.setAuthenticatedUser = function (req, res, next) {
     if (req.isAuthenticated()) {
         res.locals.user = req.user
