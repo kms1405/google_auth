@@ -6,14 +6,14 @@ module.exports.sendMail = function mail(email,password){
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'reports@tendercuts.in',
-            pass: 'sxwqsywkxwvjchsq',
+            user: 'email@gmail.com',
+            pass: 'password',
 
         }
     });
 
     var mailOptions = {
-        from: 'kmstpm@gmail.com',
+        from: 'sender@gmail.com',
         to: email,
         subject: 'Reset password from auth app',
         text: `Your password is ${password}`
