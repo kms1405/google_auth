@@ -1,6 +1,6 @@
 <div class="container">
 <h1>Sign Up</h1>
-<% if (message.length > 0) { %>
+<% if (message.error) { %>
     <div class="alert alert-danger" role="alert">
         <%= message.error %>
       </div>
@@ -21,7 +21,7 @@
         <label for="floatingInput">Password</label>
     </div>
     <div class="form-floating">
-        <input type="password" class="form-control" style="width:30%;" name="confirm_password" id="floatingInput" placeholder="Confirm password" required>
+        <input type="text" class="form-control" style="width:30%;" name="confirm_password" id="floatingInput" placeholder="Confirm password" required>
         <label for="floatingInput">Confirm Password</label>
     </div>
   

@@ -13,7 +13,7 @@ module.exports.sendMail = function mail(email,password){
     });
 
     var mailOptions = {
-        from: 'kmsmebe@gmail.com',
+        from: 'kmstpm@gmail.com',
         to: email,
         subject: 'Reset password from auth app',
         text: `Your password is ${password}`
